@@ -5,13 +5,22 @@ function App() {
   const numberOfDivs = 9; // the variable to change the number of divs
   const selectedDivRef = useRef();
 
-  // function to handle when a div is clicked
   const handleDivClick = (index) => {
-    if (selectedDivRef.current) {
-      selectedDivRef.current.style.height = '100px'; // the height when another div is clicked, the previous div will be set to the initial height
+    const clickedDiv = document.getElementById(`div-${index}`);
+
+    // If the clicked div is the same as the currently selected div, reset the height
+    if (selectedDivRef.current === clickedDiv) {
+      // Toggle between original height and expanded height
+      clickedDiv.style.height = clickedDiv.style.height === '300px' ? '100px' : '300px';
+    } else {
+      // If a different div is clicked, reset the height of the previously selected div
+      if (selectedDivRef.current) {
+        selectedDivRef.current.style.height = '100px';
+      }
+
+      selectedDivRef.current = clickedDiv; // taking the reference of the clicked div
+      clickedDiv.style.height = '300px';
     }
-    selectedDivRef.current = document.getElementById(`div-${index}`); // taking the reference of the clicked div
-    selectedDivRef.current.style.height = '275px'; // the height of the clicked div
   };
 
   return (
